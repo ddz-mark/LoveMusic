@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_home"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/black_bg"
+    android:clickable="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/item_transtop">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/item_home_poster_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp" />
+
+        <TextView
+            android:id="@+id/item_home_songname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/item_home_poster_img"
+            android:singleLine="true"
+            android:textColor="@color/cardview_light_background" />
+
+        <TextView
+            android:id="@+id/item_home_singer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_home_songname"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/item_home_poster_img"
+            android:singleLine="true"
+            android:textColor="@color/green_light" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/item_home_profile_image"
+        android:layout_width="70dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="20dp"
+        android:src="@mipmap/empty_logo"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+    <!--scaleType图形的显示方式-->
+
+
+</RelativeLayout>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">LoveMusic</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <string name="Search">Search</string>
+    <string name="showapi_appid">19405</string>
+    <string name="showapi_sign">8466dea6edcf4769a1dcfe6667fbf1b8</string>
+    <string name="topid">5</string>
+</resources>
