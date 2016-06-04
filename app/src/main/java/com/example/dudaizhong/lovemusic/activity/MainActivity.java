@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     private HomeFragment homeFragment;
     private MusicFragment musicFragment;
     private SettingFragment settingFragment;
+    private long exitTime = 0;//记录第一次点击的时间
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +77,8 @@ public class MainActivity extends AppCompatActivity
                 .addItem(new BottomNavigationItem(R.drawable.ic_menu_manage, "Music")).setActiveColor(R.color.black_bg)
                 .addItem(new BottomNavigationItem(R.drawable.ic_menu_send, "Setting")).setActiveColor(R.color.black_bg)
                 .initialise();
-        bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED)
-                .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
+        bottomNavigationBar.setMode(BottomNavigationBar.MODE_SHIFTING);
+//        bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
 
         bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
@@ -121,20 +123,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle("Hi~")
-                .setMessage("客官，真的要走吗？")
-                .setNegativeButton("点错了", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).setPositiveButton("嗯", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(MainActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
                 finish();
             }
-        }).show();
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

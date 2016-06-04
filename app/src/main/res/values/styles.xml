@@ -8,9 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Splashtheme" parent="Theme.AppCompat">
+    <style name="Splashtheme" parent="Theme.AppCompat.NoActionBar">
 
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@mipmap/night</item>
 
     </style>

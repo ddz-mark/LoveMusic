@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.dudaizhong.lovemusic.modules.HotMusicApi;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -12,6 +14,10 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Dudaizhong on 2016/5/27.
@@ -25,10 +31,18 @@ public class RetrofitSingleton {
     private static Retrofit retrofit;
     private static final String TAG = RetrofitSingleton.class.getSimpleName();
 
-    private static void init(Context context) {
+    private RetrofitSingleton() {
         initOkHttp();//初始化Okhttp
         initRetrofit();//初始化Retrofit
         apiService = retrofit.create(ApiService.class);
+    }
+
+    public static RetrofitSingleton getInstance() {
+        return SingletonHolder.INSTANCE;
+    }
+
+    private static class SingletonHolder {
+        private static final RetrofitSingleton INSTANCE = new RetrofitSingleton();
     }
 
     private static void initRetrofit() {
@@ -51,14 +65,6 @@ public class RetrofitSingleton {
                 .build();
     }
 
-    //返回用户所需的ApiService
-    public static ApiService getApiService(Context context) {
-        if (apiService != null) {
-            return apiService;
-        }
-        init(context);
-        return getApiService(context);
-    }
 
     /**
      * 显示请求失败时的错误信息
@@ -76,5 +82,18 @@ public class RetrofitSingleton {
             Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
         }
         Log.e(TAG, t.toString());
+    }
+
+    public Observable<HotMusicApi.ShowapiResBodyBean.PagebeanBean.SonglistBean> hotMusicApiObservable(String showapi_appid, String showapi_sign, String topid){
+        return apiService.hotMusicApi(showapi_appid,showapi_sign,topid)
+                .subscribeOn(Schedulers.io())//订阅发生在IO线程
+                .unsubscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(new Func1<HotMusicApi, Observable<HotMusicApi.ShowapiResBodyBean.PagebeanBean.SonglistBean>>() {
+                    @Override
+                    public Observable<HotMusicApi.ShowapiResBodyBean.PagebeanBean.SonglistBean> call(HotMusicApi hotMusicApi) {
+                        return Observable.from(hotMusicApi.getShowapi_res_body().getPagebean().getSonglist());
+                    }
+                });
     }
 }

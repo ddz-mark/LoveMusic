@@ -28,7 +28,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        handler.sendEmptyMessageDelayed(1,3000);
+        handler.sendEmptyMessageDelayed(1,2000);
     }
 
     class SwitchHandler extends Handler{
